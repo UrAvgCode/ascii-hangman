@@ -34,8 +34,8 @@ void render_frame() {
     int max_x;
     int max_y;
     getmaxyx(stdscr, max_y, max_x);
-    int tx = max_x / 2;
-    int ty = max_y / 2;
+    const int tx = max_x / 2;
+    const int ty = max_y / 2;
 
     // clear the actual frame
     clear();
@@ -90,7 +90,8 @@ bool update_state() {
                     lang = !lang;
                     break;
                 case 2:
-                    return (true);
+                    return true;
+                default:
                     break;
             }
             break;
@@ -113,8 +114,8 @@ bool update_state() {
 // * updates the state after each frame
 // * and sleeps for the remainder of the frame
 void game_loop() {
-    float dt = 1 / fps; // frame duration
-    float ms = dt * 1000; // milli seconds
+    const float dt = 1 / fps; // frame duration
+    const float ms = dt * 1000; // milli seconds
 
     // initialize ncurses screen
     initscr(); // initialize the screen to contain a single window
@@ -137,7 +138,7 @@ void game_loop() {
         elapsed += dt;
 
         // update the game state
-        bool finish = update_state();
+        const bool finish = update_state();
 
         // sleep for the remainder of the frame
         usleep(ms * 1000);
