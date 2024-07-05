@@ -31,5 +31,10 @@
 *.out
 *.app
 
-build
-.vscode
+# CMake
+build/
+cmake-build-*/
+
+# User-specific stuff
+.vscode/
+.idea/
