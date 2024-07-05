@@ -1,12 +1,12 @@
 #include <ncurses.h>
 #include <string.h>
 
-#include <time.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-#include "hangman.h"
 #include "game.h"
+#include "hangman.h"
 
 #define LENGTH 20
 
@@ -94,9 +94,7 @@ void updateHintWord(char chr) {
     }
 }
 
-void drawHintWord(int x, int y) {
-    mvprintw(y, x, "HintWord: %s", hintWord);
-}
+void drawHintWord(int x, int y) { mvprintw(y, x, "HintWord: %s", hintWord); }
 
 void drawHintLetters(int x, int y) {
     mvprintw(y, x, "Wrong Letters:");
@@ -108,9 +106,7 @@ void drawHintLetters(int x, int y) {
     }
 }
 
-void drawGuessWord(int x, int y) {
-    mvprintw(y, x, "GuessWord: %s", guessWord);
-}
+void drawGuessWord(int x, int y) { mvprintw(y, x, "GuessWord: %s", guessWord); }
 
 bool isGameOver() {
     if (mistakes >= 6)
@@ -156,10 +152,6 @@ char toUppercase(char c) {
     return c;
 }
 
-int getMistakes() {
-    return mistakes;
-}
+int getMistakes() { return mistakes; }
 
-bool getHasWon() {
-    return hasWon;
-}
+bool getHasWon() { return hasWon; }

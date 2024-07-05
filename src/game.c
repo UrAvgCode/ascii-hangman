@@ -3,8 +3,8 @@
 
 #include "game.h"
 #include "hangman.h"
-#include "sprites.h"
 #include "menu.h"
+#include "sprites.h"
 
 // game constant: frames per second
 static float fps = 30;
@@ -22,19 +22,12 @@ char key;
 bool lang = true;
 
 // definition of game phases
-typedef enum {
-    GAME_INTRO,
-    GAME_MENU,
-    GAME_LOOP,
-    GAME_OVER
-} GAME_STATES;
+typedef enum { GAME_INTRO, GAME_MENU, GAME_LOOP, GAME_OVER } GAME_STATES;
 
 // game state: actual game phase
 static GAME_STATES state = GAME_INTRO;
 
-GAME_STATES get_state() {
-    return (state);
-}
+GAME_STATES get_state() { return (state); }
 
 // render a single frame
 void render_frame() {
@@ -150,11 +143,10 @@ void game_loop() {
         usleep(ms * 1000);
 
         // check for game finish
-        if (finish) break;
+        if (finish)
+            break;
     }
 }
 
 // get language
-bool getLang() {
-    return (lang);
-}
+bool getLang() { return (lang); }

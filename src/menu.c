@@ -1,14 +1,10 @@
 #include <ncurses.h>
 
-#include "menu.h"
 #include "game.h"
+#include "menu.h"
 
 // definition of menu phases
-typedef enum {
-    START_GAME,
-    CHANGE_LANGUAGE,
-    QUIT_GAME
-} MENU_STATES;
+typedef enum { START_GAME, CHANGE_LANGUAGE, QUIT_GAME } MENU_STATES;
 
 // menu state: actual menu state
 static MENU_STATES state = START_GAME;
