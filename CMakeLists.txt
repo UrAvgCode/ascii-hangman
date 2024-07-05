@@ -24,8 +24,8 @@ include_directories(${CURSES_INCLUDE_DIR})
 include_directories("./src")
 file (GLOB app_SOURCES src/*.c)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/wordlist-en ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/wordlist-de ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(res/wordlist-en ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(res/wordlist-de ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 add_executable(hangman ${app_SOURCES})
 target_link_libraries(hangman ${CURSES_LIBRARY})
