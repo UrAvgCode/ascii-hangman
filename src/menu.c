@@ -3,11 +3,19 @@
 #include "game.h"
 #include "menu.h"
 
-// definition of menu phases
-typedef enum { START_GAME, CHANGE_LANGUAGE, QUIT_GAME } MENU_STATES;
+static MENU_STATE state = START_GAME;
 
-// menu state: actual menu state
-static MENU_STATES state = START_GAME;
+MENU_STATE updateMenuState(const char key) {
+    if (key == 3) {
+        state = (MENU_STATE) ((state + 2) % 3);
+    } else if (key == 2) {
+        state = (MENU_STATE) ((state + 1) % 3);
+    } else if (key == 10) {
+        return state;
+    }
+
+    return -1;
+}
 
 void drawMenu(const int x, const int y) {
     mvprintw(y + 0, x, "   _____ _             _   ");
@@ -62,16 +70,4 @@ void drawMenu(const int x, const int y) {
     mvprintw(y + y_offset + 3, x - 5, "  > >");
     mvprintw(y + y_offset + 4, x - 5, " / /");
     mvprintw(y + y_offset + 5, x - 5, "/_/");
-}
-
-int updateMenuState(const char key) {
-    if (key == 3) {
-        state = (MENU_STATES) ((state + 2) % 3);
-    } else if (key == 2) {
-        state = (MENU_STATES) ((state + 1) % 3);
-    } else if (key == 10) {
-        return state;
-    }
-
-    return -1;
 }
