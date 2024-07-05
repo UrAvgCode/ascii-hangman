@@ -2,7 +2,7 @@
 
 #include "sprites.h"
 
-void intro(int x, int y) {
+void intro(const int x, const int y) {
     drawHangman(x + 14, y, 6);
     drawFloor(x + 10, y + 17, 26);
     mvprintw(y + 19, x, " _");
@@ -15,7 +15,7 @@ void intro(int x, int y) {
     mvprintw(y + 26, x, "                   |___/");
 }
 
-void drawHangman(int x, int y, int state) {
+void drawHangman(const int x, const int y, const int state) {
     mvprintw(y, x, " ______________");
     mvprintw(y + 1, x, "|  ________))__|");
     mvprintw(y + 2, x, " ||/ /     ||");
@@ -78,7 +78,7 @@ void drawHangman(int x, int y, int state) {
     }
 }
 
-void drawBird(int x, int y) {
+void drawBird(const int x, const int y) {
     mvprintw(y, x, "              __");
     mvprintw(y + 1, x, "             /'{>");
     mvprintw(y + 2, x, "         ____) (____");
@@ -87,7 +87,7 @@ void drawBird(int x, int y) {
     mvprintw(y + 5, x, "             m m");
 }
 
-void drawCactus(int x, int y, int version) {
+void drawCactus(const int x, const int y, const int version) {
     switch (version) {
         case 0:
             mvprintw(y, x, "      /|\\");
@@ -114,10 +114,12 @@ void drawCactus(int x, int y, int version) {
             mvprintw(y + 6, x, "   -| | \\");
             mvprintw(y + 7, x, "    |_|-");
             break;
+        default:
+            break;
     }
 }
 
-void drawGameOver(int x, int y, bool won) {
+void drawGameOver(const int x, const int y, const bool won) {
     if (won) {
         mvprintw(y, x, "__     ______  _    _  __          ______  _   _");
         mvprintw(y + 1, x, "\\ \\   / / __ \\| |  | | \\ \\        / / __ \\| \\ | |");
@@ -135,7 +137,7 @@ void drawGameOver(int x, int y, bool won) {
     }
 }
 
-void drawFloor(int x, int y, int width) {
+void drawFloor(const int x, const int y, const int width) {
     for (int i = 0; i < width; i++)
         mvprintw(y, x + i, "-");
 }

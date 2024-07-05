@@ -9,7 +9,7 @@ typedef enum { START_GAME, CHANGE_LANGUAGE, QUIT_GAME } MENU_STATES;
 // menu state: actual menu state
 static MENU_STATES state = START_GAME;
 
-void drawMenu(int x, int y) {
+void drawMenu(const int x, const int y) {
     mvprintw(y + 0, x, "   _____ _             _   ");
     mvprintw(y + 1, x, "  / ____| |           | |  ");
     mvprintw(y + 2, x, " | (___ | |_ __ _ _ __| |_");
@@ -61,8 +61,7 @@ void drawMenu(int x, int y) {
     mvprintw(y + y_offset + 5, x - 5, "/_/");
 }
 
-int updateMenuState(char key) {
-
+int updateMenuState(const char key) {
     if (key == 3) {
         state = (MENU_STATES) ((state + 2) % 3);
     } else if (key == 2) {

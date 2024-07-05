@@ -19,7 +19,7 @@ char hintWord[LENGTH];
 char usedLetters[6];
 int usedLettersCounter = 0;
 
-void pickGuessWord(bool lang) {
+void pickGuessWord(const bool lang) {
     /* Open words file */
     FILE *fp;
     if (lang)
@@ -44,7 +44,7 @@ void pickGuessWord(bool lang) {
     srand((unsigned) time(NULL));
 
     rewind(fp);
-    int sel = rand() % wc + 1;
+    const int sel = rand() % wc + 1;
     for (int j = 0; j < sel; j++) {
         if (fgets(word, sizeof word, fp) == NULL) {
             perror("Error in fgets()");
@@ -94,9 +94,9 @@ void updateHintWord(char chr) {
     }
 }
 
-void drawHintWord(int x, int y) { mvprintw(y, x, "HintWord: %s", hintWord); }
+void drawHintWord(const int x, const int y) { mvprintw(y, x, "HintWord: %s", hintWord); }
 
-void drawHintLetters(int x, int y) {
+void drawHintLetters(const int x, const int y) {
     mvprintw(y, x, "Wrong Letters:");
 
     for (int i = 0; i < usedLettersCounter; i++) {
@@ -134,13 +134,13 @@ void reset() {
         usedLetters[i] = '\0';
 }
 
-bool isLetter(char chr) {
+bool isLetter(const char chr) {
     if ((chr >= 'a' && chr <= 'z') || (chr >= 'A' && chr <= 'Z'))
         return true;
     return false;
 }
 
-bool equalsLetter(char l1, char l2) {
+bool equalsLetter(const char l1, const char l2) {
     if (l1 == l2 || l1 - 32 == l2 || l1 + 32 == l2)
         return true;
     return false;
