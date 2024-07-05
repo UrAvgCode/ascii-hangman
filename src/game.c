@@ -18,16 +18,13 @@ static double elapsed = 0;
 // pressed key
 char key;
 
-// german = false, english = true
-bool lang = true;
+LANGUAGE language = ENGLISH;
 
 // definition of game phases
 typedef enum { GAME_INTRO, GAME_MENU, GAME_LOOP, GAME_OVER } GAME_STATES;
 
 // game state: actual game phase
 static GAME_STATES state = GAME_INTRO;
-
-GAME_STATES get_state() { return (state); }
 
 // render a single frame
 void render_frame() {
@@ -82,12 +79,12 @@ bool update_state() {
             switch (updateMenuState(key)) {
                 case 0:
                     reset();
-                    pickGuessWord(lang);
+                    pickGuessWord(language);
                     createHintWord();
                     state = GAME_LOOP;
                     break;
                 case 1:
-                    lang = !lang;
+                    language = !language;
                     break;
                 case 2:
                     return true;
@@ -148,6 +145,3 @@ void game_loop() {
             break;
     }
 }
-
-// get language
-bool getLang() { return (lang); }
