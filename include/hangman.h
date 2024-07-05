@@ -1,3 +1,6 @@
+#ifndef HANGMAN_H
+#define HANGMAN_H
+
 #include <stdbool.h>
 
 void intro(int x, int y);
@@ -27,3 +30,5 @@ bool equalsLetter(char l1, char l2);
 char toUppercase(char c);
 
 void reset();
+
+#endif // HANGMAN_H
