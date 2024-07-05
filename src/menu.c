@@ -33,20 +33,23 @@ void drawMenu(const int x, const int y) {
     mvprintw(y + 22, x, " | |__| | |_| | | |_");
     mvprintw(y + 23, x, "  \\___\\_\\\\__,_|_|\\__|");
 
-    if (getLang()) {
-        mvprintw(y + 8, x + 30, "  ______ _   _");
-        mvprintw(y + 9, x + 30, " |  ____| \\ | |");
-        mvprintw(y + 10, x + 30, " | |__  |  \\| |");
-        mvprintw(y + 11, x + 30, " |  __| | . ` |");
-        mvprintw(y + 12, x + 30, " | |____| |\\  |");
-        mvprintw(y + 13, x + 30, " |______|_| \\_|");
-    } else {
-        mvprintw(y + 8, x + 30, "  _____  ______ ");
-        mvprintw(y + 9, x + 30, " |  __ \\|  ____|");
-        mvprintw(y + 10, x + 30, " | |  | | |__");
-        mvprintw(y + 11, x + 30, " | |  | |  __|");
-        mvprintw(y + 12, x + 30, " | |__| | |____");
-        mvprintw(y + 13, x + 30, " |_____/|______|");
+    switch (language) {
+        case ENGLISH:
+            mvprintw(y + 8, x + 30, "  ______ _   _");
+            mvprintw(y + 9, x + 30, " |  ____| \\ | |");
+            mvprintw(y + 10, x + 30, " | |__  |  \\| |");
+            mvprintw(y + 11, x + 30, " |  __| | . ` |");
+            mvprintw(y + 12, x + 30, " | |____| |\\  |");
+            mvprintw(y + 13, x + 30, " |______|_| \\_|");
+            break;
+        case GERMAN:
+            mvprintw(y + 8, x + 30, "  _____  ______ ");
+            mvprintw(y + 9, x + 30, " |  __ \\|  ____|");
+            mvprintw(y + 10, x + 30, " | |  | | |__");
+            mvprintw(y + 11, x + 30, " | |  | |  __|");
+            mvprintw(y + 12, x + 30, " | |__| | |____");
+            mvprintw(y + 13, x + 30, " |_____/|______|");
+            break;
     }
 
     int y_offset = state * 9;
