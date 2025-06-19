@@ -1,35 +1,42 @@
-# Prerequisites
+# prerequisites
 *.d
 
-# Compiled Object files
+# compiled object files
 *.slo
 *.lo
 *.o
 *.obj
 
-# Precompiled Headers
+# precompiled headers
 *.gch
 *.pch
 
-# Compiled Dynamic libraries
+# compiled dynamic libraries
 *.so
 *.dylib
 *.dll
 
-# Fortran module files
+# fortran module files
 *.mod
 *.smod
 
-# Compiled Static libraries
+# compiled ctatic libraries
 *.lai
 *.la
 *.a
 *.lib
 
-# Executables
+# executables
 *.exe
 *.out
 *.app
 
-build
-.vscode
+# build
+build/
+cmake-build-*/
+
+# clion
+.idea/
+
+# vscode
+.vscode/
