@@ -1,25 +1,24 @@
-#include <ncurses.h>
-#include <string.h>
+#include <hangman.h>
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
-#include "game.h"
-#include "hangman.h"
+#include <ncurses.h>
 
 #define LENGTH 20
 
 int mistakes = 0;
-bool hasWon = false;
+bool has_won = false;
 
-char guessWord[LENGTH];
-char hintWord[LENGTH];
+char guess_word[LENGTH];
+char hint_word[LENGTH];
 
-char usedLetters[6];
-int usedLettersCounter = 0;
+char used_letters[6];
+int used_letters_counter = 0;
 
-void pickGuessWord(const bool lang) {
+void pick_guess_word(const bool lang) {
     /* Open words file */
     FILE *fp;
     if (lang)
@@ -60,60 +59,63 @@ void pickGuessWord(const bool lang) {
         if (randwords[i] == '\n')
             randwords[i] = '\0';
 
-    strcpy(guessWord, randwords);
+    strcpy(guess_word, randwords);
 }
 
-void createHintWord() {
-    for (int i = 0; i < LENGTH; i++)
-        if (isLetter(guessWord[i]))
-            hintWord[i] = '-';
+void create_hint_word() {
+    for (int i = 0; i < LENGTH; i++) {
+        if (is_letter(guess_word[i])) {
+            hint_word[i] = '-';
+        }
+    }
 }
 
-void updateHintWord(char chr) {
-    if (!isLetter(chr))
+void update_hint_word(char chr) {
+    if (!is_letter(chr)) {
         return;
+    }
 
-    for (int i = 0; i <= usedLettersCounter; i++) {
-        if (equalsLetter(usedLetters[i], chr)) {
+    for (int i = 0; i <= used_letters_counter; i++) {
+        if (equals_letter(used_letters[i], chr)) {
             return;
         }
     }
 
     bool contains = false;
     for (int i = 0; i < LENGTH; i++) {
-        if (equalsLetter(guessWord[i], chr)) {
-            hintWord[i] = guessWord[i];
+        if (equals_letter(guess_word[i], chr)) {
+            hint_word[i] = guess_word[i];
             contains = true;
         }
     }
 
     if (!contains) {
         mistakes += 1;
-        usedLetters[usedLettersCounter] = toUppercase(chr);
-        usedLettersCounter++;
+        used_letters[used_letters_counter] = to_uppercase(chr);
+        used_letters_counter++;
     }
 }
 
-void drawHintWord(const int x, const int y) { mvprintw(y, x, "HintWord: %s", hintWord); }
+void draw_hint_word(const int x, const int y) { mvprintw(y, x, "HintWord: %s", hint_word); }
 
-void drawHintLetters(const int x, const int y) {
+void draw_hint_letters(const int x, const int y) {
     mvprintw(y, x, "Wrong Letters:");
 
-    for (int i = 0; i < usedLettersCounter; i++) {
-        mvprintw(y + 1, x + 2 * i, "%c", usedLetters[i]);
-        if (i != usedLettersCounter - 1)
+    for (int i = 0; i < used_letters_counter; i++) {
+        mvprintw(y + 1, x + 2 * i, "%c", used_letters[i]);
+        if (i != used_letters_counter - 1)
             mvprintw(y + 1, x + 1 + 2 * i, ",");
     }
 }
 
-void drawGuessWord(int x, int y) { mvprintw(y, x, "GuessWord: %s", guessWord); }
+void draw_guess_word(int x, int y) { mvprintw(y, x, "GuessWord: %s", guess_word); }
 
-bool isGameOver() {
+bool is_game_over() {
     if (mistakes >= 6)
         return true;
 
-    if (strcmp(guessWord, hintWord) == 0) {
-        hasWon = true;
+    if (strcmp(guess_word, hint_word) == 0) {
+        has_won = true;
         return true;
     }
 
@@ -122,36 +124,39 @@ bool isGameOver() {
 
 void reset() {
     mistakes = 0;
-    usedLettersCounter = 0;
-    hasWon = false;
+    used_letters_counter = 0;
+    has_won = false;
 
     for (int i = 0; i < LENGTH; i++) {
-        guessWord[i] = '\0';
-        hintWord[i] = '\0';
+        guess_word[i] = '\0';
+        hint_word[i] = '\0';
     }
 
     for (int i = 0; i < 6; i++)
-        usedLetters[i] = '\0';
+        used_letters[i] = '\0';
 }
 
-bool isLetter(const char chr) {
-    if ((chr >= 'a' && chr <= 'z') || (chr >= 'A' && chr <= 'Z'))
+bool is_letter(const char chr) {
+    if ((chr >= 'a' && chr <= 'z') || (chr >= 'A' && chr <= 'Z')) {
         return true;
+    }
     return false;
 }
 
-bool equalsLetter(const char l1, const char l2) {
-    if (l1 == l2 || l1 - 32 == l2 || l1 + 32 == l2)
+bool equals_letter(const char l1, const char l2) {
+    if (l1 == l2 || l1 - 32 == l2 || l1 + 32 == l2) {
         return true;
+    }
     return false;
 }
 
-char toUppercase(char c) {
-    if (c > 90)
+char to_uppercase(char c) {
+    if (c > 90) {
         return c - 32;
+    }
     return c;
 }
 
-int getMistakes() { return mistakes; }
+int get_mistakes() { return mistakes; }
 
-bool getHasWon() { return hasWon; }
+bool get_has_won() { return has_won; }

@@ -1,10 +1,7 @@
-#ifndef MENU_H
-#define MENU_H
+#pragma once
 
-typedef enum { START_GAME, CHANGE_LANGUAGE, QUIT_GAME } MENU_STATE;
+typedef enum { START_GAME, CHANGE_LANGUAGE, QUIT_GAME } menu_state_t;
 
-MENU_STATE updateMenuState(char key);
+menu_state_t update_menu_state(char key);
 
-void drawMenu(int x, int y);
-
-#endif // MENU_H
+void draw_menu(int x, int y);

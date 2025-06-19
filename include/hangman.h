@@ -1,34 +1,29 @@
-#ifndef HANGMAN_H
-#define HANGMAN_H
-
-#include <stdbool.h>
+#pragma once
 
 void intro(int x, int y);
 
-int getMistakes();
+int get_mistakes();
 
-bool getHasWon();
+bool get_has_won();
 
-bool isGameOver();
+bool is_game_over();
 
-void pickGuessWord(bool lang);
+void pick_guess_word(bool lang);
 
-void createHintWord();
+void create_hint_word();
 
-void updateHintWord(char chr);
+void update_hint_word(char chr);
 
-void drawHintWord(int x, int y);
+void draw_hint_word(int x, int y);
 
-void drawHintLetters(int x, int y);
+void draw_hint_letters(int x, int y);
 
-void drawGuessWord(int x, int y);
+void draw_guess_word(int x, int y);
 
-bool isLetter(char chr);
+bool is_letter(char chr);
 
-bool equalsLetter(char l1, char l2);
+bool equals_letter(char l1, char l2);
 
-char toUppercase(char c);
+char to_uppercase(char c);
 
 void reset();
-
-#endif // HANGMAN_H

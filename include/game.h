@@ -1,15 +1,10 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
-#include <stdbool.h>
-
-typedef enum { ENGLISH, GERMAN } LANGUAGE;
-extern LANGUAGE language;
+typedef enum { ENGLISH, GERMAN } language_t;
+extern language_t language;
 
 void render_frame();
 
 bool update_state();
 
 void game_loop();
-
-#endif // GAME_H

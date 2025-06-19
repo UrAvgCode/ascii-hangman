@@ -3,8 +3,8 @@
 #include "sprites.h"
 
 void intro(const int x, const int y) {
-    drawHangman(x + 14, y, 6);
-    drawFloor(x + 10, y + 17, 26);
+    draw_hangman(x + 14, y, 6);
+    draw_floor(x + 10, y + 17, 26);
     mvprintw(y + 19, x, " _");
     mvprintw(y + 20, x, "| |");
     mvprintw(y + 21, x, "| |__   __ _ _ __   __ _ _ __ ___   __ _ _ __");
@@ -15,7 +15,7 @@ void intro(const int x, const int y) {
     mvprintw(y + 26, x, "                   |___/");
 }
 
-void drawHangman(const int x, const int y, const int state) {
+void draw_hangman(const int x, const int y, const int state) {
     mvprintw(y, x, " ______________");
     mvprintw(y + 1, x, "|  ________))__|");
     mvprintw(y + 2, x, " ||/ /     ||");
@@ -78,7 +78,7 @@ void drawHangman(const int x, const int y, const int state) {
     }
 }
 
-void drawBird(const int x, const int y) {
+void draw_bird(const int x, const int y) {
     mvprintw(y, x, "              __");
     mvprintw(y + 1, x, "             /'{>");
     mvprintw(y + 2, x, "         ____) (____");
@@ -87,7 +87,7 @@ void drawBird(const int x, const int y) {
     mvprintw(y + 5, x, "             m m");
 }
 
-void drawCactus(const int x, const int y, const int version) {
+void draw_cactus(const int x, const int y, const int version) {
     switch (version) {
         case 0:
             mvprintw(y, x, "      /|\\");
@@ -119,7 +119,7 @@ void drawCactus(const int x, const int y, const int version) {
     }
 }
 
-void drawGameOver(const int x, const int y, const bool won) {
+void draw_game_over(const int x, const int y, const bool won) {
     if (won) {
         mvprintw(y, x, "__     ______  _    _  __          ______  _   _");
         mvprintw(y + 1, x, "\\ \\   / / __ \\| |  | | \\ \\        / / __ \\| \\ | |");
@@ -137,7 +137,8 @@ void drawGameOver(const int x, const int y, const bool won) {
     }
 }
 
-void drawFloor(const int x, const int y, const int width) {
-    for (int i = 0; i < width; i++)
+void draw_floor(const int x, const int y, const int width) {
+    for (int i = 0; i < width; i++) {
         mvprintw(y, x + i, "-");
+    }
 }

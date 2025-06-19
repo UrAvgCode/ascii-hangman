@@ -3,13 +3,13 @@
 #include "game.h"
 #include "menu.h"
 
-static MENU_STATE state = START_GAME;
+static menu_state_t state = START_GAME;
 
-MENU_STATE updateMenuState(const char key) {
+menu_state_t update_menu_state(const char key) {
     if (key == 3) {
-        state = (MENU_STATE) ((state + 2) % 3);
+        state = (menu_state_t) ((state + 2) % 3);
     } else if (key == 2) {
-        state = (MENU_STATE) ((state + 1) % 3);
+        state = (menu_state_t) ((state + 1) % 3);
     } else if (key == 10) {
         return state;
     }
@@ -17,7 +17,7 @@ MENU_STATE updateMenuState(const char key) {
     return -1;
 }
 
-void drawMenu(const int x, const int y) {
+void draw_menu(const int x, const int y) {
     mvprintw(y + 0, x, "   _____ _             _   ");
     mvprintw(y + 1, x, "  / ____| |           | |  ");
     mvprintw(y + 2, x, " | (___ | |_ __ _ _ __| |_");
@@ -61,8 +61,9 @@ void drawMenu(const int x, const int y) {
     }
 
     int y_offset = state * 9;
-    if (state == CHANGE_LANGUAGE)
+    if (state == CHANGE_LANGUAGE) {
         y_offset--;
+    }
 
     mvprintw(y + y_offset, x - 5, "__");
     mvprintw(y + y_offset + 1, x - 5, "\\ \\");

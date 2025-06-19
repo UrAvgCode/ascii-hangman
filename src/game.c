@@ -6,15 +6,16 @@
 #include "menu.h"
 #include "sprites.h"
 
-typedef enum { GAME_INTRO, GAME_MENU, GAME_LOOP, GAME_OVER } GAME_STATE;
+typedef enum { GAME_INTRO, GAME_MENU, GAME_LOOP, GAME_OVER } game_state_t;
 
 const static float fps = 60;
 
 static int frame = 0;
 static double elapsed = 0;
 static char key;
-static GAME_STATE game_state = GAME_INTRO;
-LANGUAGE language = ENGLISH;
+static game_state_t game_state = GAME_INTRO;
+
+language_t language = ENGLISH;
 
 void render_frame() {
     int max_x, max_y;
@@ -29,23 +30,23 @@ void render_frame() {
             intro(tx - 23, ty - 13);
             break;
         case GAME_MENU:
-            drawMenu(tx - 13, ty - 13);
+            draw_menu(tx - 13, ty - 13);
             break;
         case GAME_LOOP:
         case GAME_OVER:
-            drawHangman(tx - 9, ty, getMistakes());
-            drawCactus(tx - 35, ty + 4, 0);
-            drawCactus(tx + 27, ty + 9, 1);
-            drawFloor(0, ty + 17, max_x);
-            drawHintLetters(10, 7);
+            draw_hangman(tx - 9, ty, get_mistakes());
+            draw_cactus(tx - 35, ty + 4, 0);
+            draw_cactus(tx + 27, ty + 9, 1);
+            draw_floor(0, ty + 17, max_x);
+            draw_hint_letters(10, 7);
 
             if (game_state == GAME_LOOP) {
-                drawHintWord(10, 5);
-                drawBird((frame / 2) % max_x, 12);
-                updateHintWord(key);
+                draw_hint_word(10, 5);
+                draw_bird((frame / 2) % max_x, 12);
+                update_hint_word(key);
             } else {
-                drawGuessWord(10, 5);
-                drawGameOver(tx - 20, 10, getHasWon());
+                draw_guess_word(10, 5);
+                draw_game_over(tx - 20, 10, get_has_won());
             }
             break;
     }
@@ -60,11 +61,11 @@ bool update_state() {
                 game_state = GAME_MENU;
             break;
         case GAME_MENU:
-            switch (updateMenuState(key)) {
+            switch (update_menu_state(key)) {
                 case START_GAME:
                     reset();
-                    pickGuessWord(language);
-                    createHintWord();
+                    pick_guess_word(language);
+                    create_hint_word();
                     game_state = GAME_LOOP;
                     break;
                 case CHANGE_LANGUAGE:
@@ -75,7 +76,7 @@ bool update_state() {
             }
             break;
         case GAME_LOOP:
-            if (isGameOver())
+            if (is_game_over())
                 game_state = GAME_OVER;
             break;
         case GAME_OVER:
