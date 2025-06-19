@@ -18,48 +18,62 @@ char hint_word[LENGTH];
 char used_letters[6];
 int used_letters_counter = 0;
 
-void pick_guess_word(const bool lang) {
-    /* Open words file */
-    FILE *fp;
-    if (lang)
-        fp = fopen("wordlist-en", "r");
-    else
-        fp = fopen("wordlist-de", "r");
+void pick_guess_word(const language_t language) {
+    const char *filename = NULL;
+    switch (language) {
+        case ENGLISH:
+            filename = "wordlist-en";
+            break;
+        case GERMAN:
+            filename = "wordlist-de";
+            break;
+    }
 
-    if (fp == NULL) {
-        perror("Unable to locate word list");
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("error opening wordlist");
         exit(EXIT_FAILURE);
     }
 
-    /* Count words in file */
-    char word[LENGTH];
-    long wc = 0;
-    while (fgets(word, sizeof word, fp) != NULL) {
-        ++wc;
+    fseek(file, 0, SEEK_END);
+    const long file_size = ftell(file);
+    rewind(file);
+
+    char *word_list = malloc(file_size);
+    if (word_list == NULL) {
+        perror("memory allocation failed");
+        exit(EXIT_FAILURE);
     }
 
-    /* Choose random word */
-    char randwords[LENGTH];
-    srand((unsigned) time(NULL));
+    fread(word_list, sizeof(char), file_size, file);
 
-    rewind(fp);
-    const int sel = rand() % wc + 1;
-    for (int j = 0; j < sel; j++) {
-        if (fgets(word, sizeof word, fp) == NULL) {
-            perror("Error in fgets()");
+    int word_count = 0;
+    for (int i = 0; i < file_size; ++i) {
+        if (word_list[i] == '\n') {
+            ++word_count;
         }
     }
-    strcpy(randwords, word);
 
-    if (fclose(fp) != 0) {
-        perror("Unable to close file");
+    const int random_index = rand() % word_count;
+    int current_word = 0;
+    int current_char = 0;
+    for (int i = 0; i < file_size; ++i) {
+        if (current_word == random_index) {
+            guess_word[current_char] = word_list[i];
+            ++current_char;
+        }
+
+        if (word_list[i] == '\n') {
+            ++current_word;
+        }
+
+        if (current_word > random_index) {
+            break;
+        }
     }
 
-    for (int i = 0; i < LENGTH; i++)
-        if (randwords[i] == '\n')
-            randwords[i] = '\0';
-
-    strcpy(guess_word, randwords);
+    guess_word[current_char] = '\0';
+    free(word_list);
 }
 
 void create_hint_word() {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <game.h>
+
 void intro(int x, int y);
 
 int get_mistakes();
@@ -8,7 +10,7 @@ bool get_has_won();
 
 bool is_game_over();
 
-void pick_guess_word(bool lang);
+void pick_guess_word(language_t);
 
 void create_hint_word();
 
