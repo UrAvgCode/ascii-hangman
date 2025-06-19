@@ -1,10 +1,12 @@
-#include <ncurses.h>
+#include <game.h>
+
 #include <unistd.h>
 
-#include "game.h"
-#include "hangman.h"
-#include "menu.h"
-#include "sprites.h"
+#include <ncurses.h>
+
+#include <hangman.h>
+#include <menu.h>
+#include <sprites.h>
 
 typedef enum { GAME_INTRO, GAME_MENU, GAME_LOOP, GAME_OVER } game_state_t;
 

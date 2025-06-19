@@ -1,6 +1,6 @@
-#include <ncurses.h>
+#include <sprites.h>
 
-#include "sprites.h"
+#include <ncurses.h>
 
 void intro(const int x, const int y) {
     draw_hangman(x + 14, y, 6);

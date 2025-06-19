@@ -1,7 +1,8 @@
+#include <menu.h>
+
 #include <ncurses.h>
 
-#include "game.h"
-#include "menu.h"
+#include <game.h>
 
 static menu_state_t state = START_GAME;
 
