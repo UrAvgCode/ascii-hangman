@@ -3,20 +3,13 @@ project(ascii-hangman LANGUAGES C)
 
 find_package(Curses REQUIRED)
 
-set(SOURCES
-        src/main.c
-        src/game.c
-        src/hangman.c
-        src/menu.c
-        src/sprites.c
-)
-
-set(INCLUDE_DIRS ./include ${CURSES_INCLUDE_DIR})
+file(GLOB_RECURSE source_files CONFIGURE_DEPENDS src/*.c)
+file(GLOB_RECURSE header_files CONFIGURE_DEPENDS include/*.h)
 
 configure_file(res/wordlist-en ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(res/wordlist-de ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${CURSES_LIBRARY})
-target_compile_features(${PROJECT_NAME} PUBLIC c_std_11)
+add_executable(${PROJECT_NAME} ${source_files} ${header_files})
+target_compile_features(${PROJECT_NAME} PRIVATE c_std_23)
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CURSES_LIBRARY})
