@@ -1,7 +1,9 @@
 #pragma once
 
+#include <hangman.h>
+
 typedef enum { START_GAME, CHANGE_LANGUAGE, QUIT_GAME } menu_state_t;
 
 menu_state_t update_menu_state(char key);
 
-void draw_menu(int x, int y);
+void draw_menu(int x, int y, language_t);

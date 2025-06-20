@@ -32,7 +32,7 @@ void render_frame() {
             intro(tx - 23, ty - 13);
             break;
         case GAME_MENU:
-            draw_menu(tx - 13, ty - 13);
+            draw_menu(tx - 13, ty - 13, language);
             break;
         case GAME_LOOP:
         case GAME_OVER:

@@ -2,8 +2,6 @@
 
 #include <ncurses.h>
 
-#include <game.h>
-
 static menu_state_t state = START_GAME;
 
 menu_state_t update_menu_state(const char key) {
@@ -18,7 +16,7 @@ menu_state_t update_menu_state(const char key) {
     return -1;
 }
 
-void draw_menu(const int x, const int y) {
+void draw_menu(const int x, const int y, const language_t language) {
     mvprintw(y + 0, x, "   _____ _             _   ");
     mvprintw(y + 1, x, "  / ____| |           | |  ");
     mvprintw(y + 2, x, " | (___ | |_ __ _ _ __| |_");

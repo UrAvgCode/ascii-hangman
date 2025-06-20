@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game.h>
+typedef enum { ENGLISH = 0, GERMAN = 1 } language_t;
 
 void intro(int x, int y);
 
