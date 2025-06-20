@@ -9,94 +9,112 @@
 
 #define LENGTH 20
 
+typedef struct {
+    const char *word_list;
+    long file_size;
+    int word_count;
+} word_list_t;
+
+static word_list_t word_lists[2];
+
+static const char *guess_word;
+static char hint_word[LENGTH];
+
+static char used_letters[6];
+
 int mistakes = 0;
 bool has_won = false;
 
-char guess_word[LENGTH];
-char hint_word[LENGTH];
+void load_word_lists() {
+    for (int i = 0; i < 2; ++i) {
+        const char *filenames[] = {"wordlist-en", "wordlist-de"};
+        FILE *file = fopen(filenames[i], "r");
+        if (file == NULL) {
+            perror("error opening wordlist");
+            exit(EXIT_FAILURE);
+        }
 
-char used_letters[6];
-int used_letters_counter = 0;
+        fseek(file, 0, SEEK_END);
+        const long file_size = ftell(file);
+        rewind(file);
+
+        char *word_list = malloc(file_size + 1);
+        if (word_list == NULL) {
+            perror("memory allocation failed");
+            exit(EXIT_FAILURE);
+        }
+
+        fread(word_list, sizeof(char), file_size, file);
+        word_list[file_size] = '\0';
+
+        int word_count = 0;
+        for (int j = 0; j < file_size; ++j) {
+            if (word_list[j] == '\n') {
+                word_list[j] = '\0';
+
+                if (j != file_size - 1) {
+                    ++word_count;
+                }
+            }
+        }
+
+        word_lists[i].word_list = word_list;
+        word_lists[i].file_size = file_size;
+        word_lists[i].word_count = word_count;
+    }
+}
 
 void pick_guess_word(const language_t language) {
-    const char *filename = NULL;
-    switch (language) {
-        case ENGLISH:
-            filename = "wordlist-en";
-            break;
-        case GERMAN:
-            filename = "wordlist-de";
-            break;
-    }
-
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("error opening wordlist");
-        exit(EXIT_FAILURE);
-    }
-
-    fseek(file, 0, SEEK_END);
-    const long file_size = ftell(file);
-    rewind(file);
-
-    char *word_list = malloc(file_size);
-    if (word_list == NULL) {
-        perror("memory allocation failed");
-        exit(EXIT_FAILURE);
-    }
-
-    fread(word_list, sizeof(char), file_size, file);
-
-    int word_count = 0;
-    for (int i = 0; i < file_size; ++i) {
-        if (word_list[i] == '\n') {
-            ++word_count;
-        }
-    }
+    const char *word_list = word_lists[language].word_list;
+    const long file_size = word_lists[language].file_size;
+    const int word_count = word_lists[language].word_count;
 
     const int random_index = rand() % word_count;
-    int current_word = 0;
-    int current_char = 0;
+
+    int current_index = 0;
     for (int i = 0; i < file_size; ++i) {
-        if (current_word == random_index) {
-            guess_word[current_char] = word_list[i];
-            ++current_char;
-        }
-
-        if (word_list[i] == '\n') {
-            ++current_word;
-        }
-
-        if (current_word > random_index) {
+        if (current_index == random_index) {
+            guess_word = word_list + i;
             break;
         }
-    }
 
-    guess_word[current_char] = '\0';
-    free(word_list);
+        if (word_list[i] == '\0') {
+            ++current_index;
+        }
+    }
 }
 
 void create_hint_word() {
-    for (int i = 0; i < LENGTH; i++) {
+    for (int i = 0; i < LENGTH; ++i) {
         if (is_letter(guess_word[i])) {
             hint_word[i] = '-';
+        } else {
+            hint_word[i] = guess_word[i];
+        }
+
+        if (guess_word[i] == '\0') {
+            break;
         }
     }
 }
 
-void update_hint_word(char chr) {
+void update_hint_word(const char chr) {
     if (!is_letter(chr)) {
         return;
     }
 
-    for (int i = 0; i <= used_letters_counter; i++) {
+    for (int i = 0; i <= mistakes; ++i) {
         if (equals_letter(used_letters[i], chr)) {
             return;
         }
     }
 
     bool contains = false;
-    for (int i = 0; i < LENGTH; i++) {
+    for (int i = 0; i < LENGTH; ++i) {
+        if (guess_word[i] == '\0') {
+            break;
+        }
+
         if (equals_letter(guess_word[i], chr)) {
             hint_word[i] = guess_word[i];
             contains = true;
@@ -104,9 +122,7 @@ void update_hint_word(char chr) {
     }
 
     if (!contains) {
-        mistakes += 1;
-        used_letters[used_letters_counter] = to_uppercase(chr);
-        used_letters_counter++;
+        used_letters[mistakes++] = to_uppercase(chr);
     }
 }
 
@@ -115,18 +131,20 @@ void draw_hint_word(const int x, const int y) { mvprintw(y, x, "HintWord: %s", h
 void draw_hint_letters(const int x, const int y) {
     mvprintw(y, x, "Wrong Letters:");
 
-    for (int i = 0; i < used_letters_counter; i++) {
+    for (int i = 0; i < mistakes; ++i) {
         mvprintw(y + 1, x + 2 * i, "%c", used_letters[i]);
-        if (i != used_letters_counter - 1)
+        if (i != mistakes - 1) {
             mvprintw(y + 1, x + 1 + 2 * i, ",");
+        }
     }
 }
 
-void draw_guess_word(int x, int y) { mvprintw(y, x, "GuessWord: %s", guess_word); }
+void draw_guess_word(const int x, const int y) { mvprintw(y, x, "GuessWord: %s", guess_word); }
 
 bool is_game_over() {
-    if (mistakes >= 6)
+    if (mistakes >= 6) {
         return true;
+    }
 
     if (strcmp(guess_word, hint_word) == 0) {
         has_won = true;
@@ -138,16 +156,11 @@ bool is_game_over() {
 
 void reset() {
     mistakes = 0;
-    used_letters_counter = 0;
     has_won = false;
 
-    for (int i = 0; i < LENGTH; i++) {
-        guess_word[i] = '\0';
-        hint_word[i] = '\0';
-    }
-
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 6; i++) {
         used_letters[i] = '\0';
+    }
 }
 
 bool is_letter(const char chr) {
@@ -164,9 +177,9 @@ bool equals_letter(const char l1, const char l2) {
     return false;
 }
 
-char to_uppercase(char c) {
-    if (c > 90) {
-        return c - 32;
+char to_uppercase(const char c) {
+    if (c >= 'a' && c <= 'z') {
+        return (char) (c - 32);
     }
     return c;
 }

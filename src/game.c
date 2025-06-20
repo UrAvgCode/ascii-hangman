@@ -93,6 +93,8 @@ bool update_state() {
 }
 
 void game_loop() {
+    load_word_lists();
+
     const float delta_time = 1.0f / fps;
     const float millis = delta_time * 1000.0f;
 

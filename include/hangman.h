@@ -2,6 +2,8 @@
 
 typedef enum { ENGLISH = 0, GERMAN = 1 } language_t;
 
+void load_word_lists();
+
 void intro(int x, int y);
 
 int get_mistakes();
