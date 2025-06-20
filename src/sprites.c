@@ -79,12 +79,13 @@ void draw_hangman(const int x, const int y, const int state) {
 }
 
 void draw_bird(const int x, const int y) {
-    mvprintw(y, x, "              __");
-    mvprintw(y + 1, x, "             /'{>");
-    mvprintw(y + 2, x, "         ____) (____");
-    mvprintw(y + 3, x, "       //'--;   ;--'\\\\");
-    mvprintw(y + 4, x, "      ///////\\_/\\\\\\\\\\\\\\");
-    mvprintw(y + 5, x, "             m m");
+    mvprintw(y, x + 14, "__");
+    mvprintw(y + 1, x + 13, "/'{>");
+    mvprintw(y + 2, x + 9, "____) (____");
+    mvprintw(y + 3, x + 7, "//'--;   ;--'\\\\");
+    mvprintw(y + 4, x + 6, "///////\\_/\\\\\\\\\\\\\\");
+    mvprintw(y + 5, x + 13, "m");
+    mvprintw(y + 5, x + 15, "m");
 }
 
 void draw_cactus(const int x, const int y, const int version) {
